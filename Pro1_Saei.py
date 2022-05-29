@@ -1,39 +1,40 @@
 from collections import defaultdict
 
 
-class FA():
-    states = []
+class NFA():
+    transition = []
 
-    def __init__(self) -> None:
-        for key in G.keys():
-            state = State(key)
-            self.states.append(state)
-
-            if "Start" in key:
-                self.startState = state
-
-        self.finalState = State("Final")
-        self.states.append(self.finalState)
-
-    # def p(self):
-    #     for x in self.states:
-    #         print(x.stateName)
-    #         for i in x.transitions.keys():
-    #             print("Ts:")
-    #             print(i, x.transitions[i])
-
-
-class State():
-    def __init__(self, name):
-        self.stateName = name
-        self.transitions = defaultdict()
-
-        if name != "Final":
-            for x in G[name]:
-                if x[-1].isupper():
-                    self.transitions[x[:-1]] = x[-1]
+    def __init__(self, grammar):
+        counter = 0
+        for key in grammar.keys():
+            indexMap[key] = counter
+            for value in grammar[key]:
+                if value[-1].isupper():
+                    self.transition.append(f"{key}->{value[:-1]}->{value[-1]}")
                 else:
-                    self.transitions[x] = "Final"
+                    self.transition.append(f"{key}->{value}->Final")
+            counter += 1
+        indexMap["Final"] = counter
+
+    def buildMatrix(self):
+        matrix = [[""] * len(indexMap) for i in range(len(indexMap))]
+        for x in G.keys():
+            matrix[indexMap[x]][indexMap[x]] = "λ"
+        for x in self.transition:
+            a, b, c = map(str, x.split("->"))
+            if matrix[indexMap[a]][indexMap[c]] == "":
+                matrix[indexMap[a]][indexMap[c]] = b
+            else:
+                matrix[indexMap[a]][indexMap[c]] += f"+{b}"
+
+        matrix[len(indexMap)-1][len(indexMap)-1] = "λ"
+        return matrix
+
+
+def printAdjMatrix():
+    print("Adjacnecy Matrix: ")
+    for x in adj_matrix:
+        print(x)
 
 
 def printGrammar():
@@ -61,11 +62,7 @@ def trim():
 
 if __name__ == "__main__":
     G = defaultdict()
-    adj_matrix = defaultdict(dict)
-
-    li1 = []
-    li1.append("λS")
-    G["Start"] = li1
+    indexMap = defaultdict()
 
     while (True):
         try:
@@ -84,6 +81,7 @@ if __name__ == "__main__":
 
     trim()
     printGrammar()
-
-    fa = FA()
-    # fa.p()
+    nfa = NFA(G)
+    adj_matrix = nfa.buildMatrix()
+    print(indexMap)
+    printAdjMatrix()

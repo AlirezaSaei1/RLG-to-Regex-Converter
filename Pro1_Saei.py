@@ -17,18 +17,51 @@ class NFA():
         indexMap["Final"] = counter
 
     def buildMatrix(self):
-        matrix = [[""] * len(indexMap) for i in range(len(indexMap))]
+        matrix = [["∅"] * len(indexMap) for i in range(len(indexMap))]
         for x in G.keys():
             matrix[indexMap[x]][indexMap[x]] = "λ"
         for x in self.transition:
             a, b, c = map(str, x.split("->"))
-            if matrix[indexMap[a]][indexMap[c]] == "":
+            if matrix[indexMap[a]][indexMap[c]] == "∅":
                 matrix[indexMap[a]][indexMap[c]] = b
             else:
                 matrix[indexMap[a]][indexMap[c]] += f"+{b}"
 
         matrix[len(indexMap)-1][len(indexMap)-1] = "λ"
         return matrix
+
+
+def star(str):
+    if str == "λ":
+        return str
+    return f"({str})*"
+
+
+def union(reg1, reg2):
+    if "∅" in reg1:
+        return reg2
+    if "∅" in reg2:
+        return reg1
+    if reg1 == reg2:
+        return reg1
+    return f"(({reg1})+({reg2}))"
+
+
+def concat(reg1, reg2, reg3):
+    if reg1 == "λ":
+        reg1 = ""
+    if reg2 == "λ":
+        reg2 = ""
+    if reg3 == "λ":
+        reg3 = ""
+    return f"{reg1}{reg2}{reg3}"
+
+
+def R(i, j, k):
+    if k == 0:
+        return adj_matrix[i][j]
+
+    return f"{union(R(i, j, k - 1), concat(R(i, k, k - 1), star(R(k, k, k - 1)), R(k, j, k - 1)))}"
 
 
 def printAdjMatrix():
@@ -85,3 +118,4 @@ if __name__ == "__main__":
     adj_matrix = nfa.buildMatrix()
     print(indexMap)
     printAdjMatrix()
+    print("Regex:", R(0, len(indexMap)-1, len(indexMap)-1))

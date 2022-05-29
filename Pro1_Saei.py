@@ -25,7 +25,8 @@ class NFA():
             if matrix[indexMap[a]][indexMap[c]] == "∅":
                 matrix[indexMap[a]][indexMap[c]] = b
             else:
-                matrix[indexMap[a]][indexMap[c]] += f"+{b}"
+                matrix[indexMap[a]][indexMap[c]
+                                    ] = f"({matrix[indexMap[a]][indexMap[c]]}+{b})"
 
         matrix[len(indexMap)-1][len(indexMap)-1] = "λ"
         return matrix

@@ -98,10 +98,20 @@ if __name__ == "__main__":
     G = defaultdict()
     indexMap = defaultdict()
 
+    G["Start"] = []
+    indexMap["Start"] = 0
+    flag = True
+
     while (True):
         try:
             # get lines of # sepreated right linear grammar
             grammar = input()
+            if flag:
+                tempList = []
+                tempList.append(str("λ" + grammar[0]))
+                G["Start"] = tempList
+                flag = False
+
             if not grammar[0] in G:
                 temp = list()
                 temp.append(grammar[2:])
@@ -116,7 +126,7 @@ if __name__ == "__main__":
     trim()
     printGrammar()
     nfa = NFA(G)
-    adj_matrix = nfa.buildMatrix()
     print(indexMap)
+    adj_matrix = nfa.buildMatrix()
     printAdjMatrix()
     print("Regex:", R(0, len(indexMap)-1, len(indexMap)-1))

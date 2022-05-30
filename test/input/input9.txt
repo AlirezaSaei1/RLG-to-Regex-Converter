@@ -1,0 +1,7 @@
+S#aA
+S#bbA
+A#cB
+A#dB
+B#eS
+B#fg
+B#ε

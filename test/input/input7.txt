@@ -1,0 +1,6 @@
+S#aA
+S#bB
+A#cC
+C#cC
+C#c
+B#b

@@ -1,0 +1,11 @@
+S#aS
+S#bS
+S#c
+S#cc
+S#ccc
+S#aA
+S#bB
+A#xB
+B#yA
+B#b
+A#aa

@@ -1,0 +1,9 @@
+S#aA
+S#bT
+A#aB
+A#bT
+B#bB
+B#aC
+C#aT
+C#bT
+C#ε

@@ -1,0 +1,8 @@
+S#aA
+S#bA
+S#ssS
+A#cA
+A#d
+A#eB
+B#ε
+B#bb

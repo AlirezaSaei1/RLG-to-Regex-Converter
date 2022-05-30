@@ -1,0 +1,6 @@
+S#aA
+S#bA
+A#cS
+A#dB
+B#uB
+B#xyz

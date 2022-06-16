@@ -35,6 +35,8 @@ class NFA():
 def star(str):
     if str == "λ":
         return str
+    if str[-1] == ")" and str[0] == "(":
+        return f"{str}*"
     return f"({str})*"
 
 
